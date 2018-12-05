@@ -1,28 +1,18 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { useFetch } from 'react-hooks-fetch'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const Err = ({ error }) => <span>Error: {error.message}</span>
+const Loading = () => <span>Loading...</span>
+
+const App = () => {
+	const { error, loading, data } = useFetch('https://jsonplaceholder.typicode.com/todos')
+	if (error) return <Err error={error} />
+	if (loading) return <Loading />
+	return (
+		<span>
+			{data.map(x => <div>{x.id}: {x.title}</div>)}
+		</span>
+	)
 }
 
-export default App;
+export default App
