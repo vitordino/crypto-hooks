@@ -4,22 +4,98 @@ import { VictoryChart , VictoryAxis, VictoryLine } from 'victory'
 import CryptoIcon from './CryptoIcon'
 
 const Wrapper = styled.div`
-	display: block;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: relative;
+	overflow: hidden;
+	background: #323538;
+	min-height: 8rem;
+	border-radius: 0.25rem;
+	box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.22);
 `
 
-const Card = ({data}) => {
-	const mean = ({low, high}) => (low+high)/2
+const Main = styled.div`
+	position: absolute;
+	top: auto;
+	width: 100%;
+	bottom: auto;
+	display: flex;
+	padding: 1rem;
+	align-items: center;
+	justify-content: space-between;
+`
+
+const TitleBar = styled.div`
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.5rem;
+`
+
+const Title = styled.div`
+	font-size: 1.5rem;
+	line-height: 1.75rem;
+`
+
+const Amount = styled.div``
+
+const Change = styled.div`
+	text-align: right;
+`
+
+const Absolute = styled.div`
+	color: ${p => p.isMelting ? 'orangered' : 'palegreen'};
+`
+
+const Relative = styled.div`
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+	letter-spacing: 0.025rem;
+	color: #666869;
+`
+
+const Graph = ({data, ...props}) => (
+	<div>
+		<VictoryLine
+			padding={{top: 10, bottom: 10}}
+			standalone
+			height={64}
+			style={{data: {stroke: '#666869', strokeWidth: 1}}}
+			data={data}
+			{...props}
+		/>
+	</div>
+)
+
+const mean = ({low, high}) => (low+high)/2
+const last = arr => arr[arr.length -1]
+const diff = data => last(data).y - data[0].y
+const percentage = data => ((diff(data)/data[0].y)*100).toFixed(2)
+
+const Card = ({currency, fiat, data}) => {
 	const normalizedData = data.map((v, i) => ({x: i, y: mean(v)}))
+	const absoluteChange = diff(normalizedData).toFixed(2)+fiat
+	const relativeChange = percentage(normalizedData)+'%'
+	const isMelting = diff(normalizedData) < 0
 	return (
 		<Wrapper>
-			<CryptoIcon/>
-			<VictoryLine
-				padding={0}
-				standalone
-				height={50}
-				style={{data: {stroke: 'lightgray'}}}
-				data={normalizedData}
-			/>
+			<Graph data={normalizedData}/>
+			<Main>
+				<div>
+					<TitleBar>
+						<CryptoIcon icon={currency} style={{marginRight: '0.75rem'}}/>
+						<Title>{currency}</Title>
+					</TitleBar>
+					<Amount>
+						{last(normalizedData).y.toFixed(2)} {fiat}
+					</Amount>
+				</div>
+				<Change>
+					<Absolute isMelting={isMelting}>{absoluteChange}</Absolute>
+					<Relative>{relativeChange}</Relative>
+				</Change>
+			</Main>
 		</Wrapper>
 	)
 }
