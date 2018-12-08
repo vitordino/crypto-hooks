@@ -43,11 +43,11 @@ const Relative = styled.div`
 `
 
 const Graph = props => (
-	<div style={{position: 'absolute'}}>
+	<div style={{position: 'absolute', bottom: -2, top: -2}}>
 		<VictoryLine
-			standalone
-			padding={{top: 10, bottom: 10}}
+			padding={0}
 			style={{data: {stroke: '#666869', strokeWidth: 1}}}
+			interpolation='natural'
 			{...props}
 		/>
 	</div>
@@ -69,7 +69,7 @@ const Default = ({currency, fiat, data, error, loading}) => {
 	return (
 		<Wrapper ref={ref}>
 			{(!!height && !!width) &&
-				<Graph height={height} width={width} data={normalizedData}/>
+				<Graph height={height+4} width={width} data={normalizedData}/>
 			}
 			<Main>
 				<div>
