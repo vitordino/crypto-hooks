@@ -6,7 +6,8 @@
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "react-hooks-fetch": "^0.1.2",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "react-trend": "^1.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
