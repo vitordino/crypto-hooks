@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.4",
     "@emotion/styled": "^10.0.4",
+    "minireset.css": "^0.0.3",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "react-hooks-fetch": "^0.1.2",
