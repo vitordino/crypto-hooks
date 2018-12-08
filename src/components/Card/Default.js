@@ -1,19 +1,9 @@
 import React, { useRef } from 'react'
 import styled from '@emotion/styled'
 import { VictoryChart , VictoryAxis, VictoryLine } from 'victory'
-import CryptoIcon from './CryptoIcon'
+import CryptoIcon from '../CryptoIcon'
 import useComponentSize from '@rehooks/component-size'
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	position: relative;
-	overflow: hidden;
-	background: #323538;
-	border-radius: 0.25rem;
-	box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.22);
-`
+import {Wrapper} from './'
 
 const Main = styled.div`
 	position: relative;
@@ -68,16 +58,19 @@ const last = arr => arr[arr.length -1]
 const diff = data => last(data).y - data[0].y
 const percentage = data => ((diff(data)/data[0].y)*100).toFixed(2)
 
-const Card = ({currency, fiat, data}) => {
-	const ref = useRef(null)
-	const {width, height} = useComponentSize(ref)
-	const normalizedData = data.map((v, i) => ({x: i, y: mean(v)}))
+const Default = ({currency, fiat, data, error, loading}) => {
+	const normalizedData = data.Data.map((v, i) => ({x: i, y: mean(v)}))
 	const absoluteChange = diff(normalizedData).toFixed(2)+fiat
 	const relativeChange = percentage(normalizedData)+'%'
 	const isMelting = diff(normalizedData) < 0
+
+	const ref = useRef(null)
+	const {width, height} = useComponentSize(ref)
 	return (
 		<Wrapper ref={ref}>
-			<Graph height={height} width={width} data={normalizedData}/>
+			{(!!height && !!width) &&
+				<Graph height={height} width={width} data={normalizedData}/>
+			}
 			<Main>
 				<div>
 					<TitleBar>
@@ -95,4 +88,4 @@ const Card = ({currency, fiat, data}) => {
 	)
 }
 
-export default Card
+export default Default
