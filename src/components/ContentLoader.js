@@ -6,8 +6,8 @@ const ContentLoader = ({height, width = '100%', ...props}) => (
 		height={height}
 		width={width}
 		speed={2}
-		primaryColor='#f3f3f3'
-		secondaryColor='#ecebeb'
+		primaryColor='#666869'
+		secondaryColor='#323538'
 		preserveAspectRatio='xMinYMid'
 		style={{display: 'block', height, width}}
 		{...props}
