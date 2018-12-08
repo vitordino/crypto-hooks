@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { VictoryChart , VictoryAxis, VictoryLine } from 'victory'
+import CryptoIcon from './CryptoIcon'
 
 const Wrapper = styled.div`
 	display: block;
@@ -11,6 +12,7 @@ const Card = ({data}) => {
 	const normalizedData = data.map((v, i) => ({x: i, y: mean(v)}))
 	return (
 		<Wrapper>
+			<CryptoIcon/>
 			<VictoryLine
 				padding={0}
 				standalone
