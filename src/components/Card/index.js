@@ -1,7 +1,5 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
-import { VictoryChart , VictoryAxis, VictoryLine } from 'victory'
-import useComponentSize from '@rehooks/component-size'
 import Err from './Error'
 import Loading from './Loading'
 import Default from './Default'
