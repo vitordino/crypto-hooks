@@ -17,9 +17,9 @@ export const Wrapper = styled.div`
 `
 
 const Card = ({error, loading, ...props}) => {
-	if (error) return <Err error={error}/>
+	if (error) return <Err alert error={error}/>
 	if (loading) return <Loading/>
-	if (props.data.Type !== 100) return <Err error={{message: 'api error'}}/>
+	if (props.data.Type !== 100) return <Err error={{message: 'sorry, no matches for this search 😔'}}/>
 	return <Default {...props}/>
 }
 
