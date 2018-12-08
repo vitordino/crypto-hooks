@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from '@emotion/styled'
 import { VictoryChart , VictoryAxis, VictoryLine } from 'victory'
 import CryptoIcon from './CryptoIcon'
+import useComponentSize from '@rehooks/component-size'
 
 const Wrapper = styled.div`
 	display: flex;
@@ -10,16 +11,12 @@ const Wrapper = styled.div`
 	position: relative;
 	overflow: hidden;
 	background: #323538;
-	min-height: 8rem;
 	border-radius: 0.25rem;
 	box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.22);
 `
 
 const Main = styled.div`
-	position: absolute;
-	top: auto;
-	width: 100%;
-	bottom: auto;
+	position: relative;
 	display: flex;
 	padding: 1rem;
 	align-items: center;
@@ -55,14 +52,12 @@ const Relative = styled.div`
 	color: #666869;
 `
 
-const Graph = ({data, ...props}) => (
-	<div>
+const Graph = props => (
+	<div style={{position: 'absolute'}}>
 		<VictoryLine
-			padding={{top: 10, bottom: 10}}
 			standalone
-			height={64}
+			padding={{top: 10, bottom: 10}}
 			style={{data: {stroke: '#666869', strokeWidth: 1}}}
-			data={data}
 			{...props}
 		/>
 	</div>
@@ -74,22 +69,22 @@ const diff = data => last(data).y - data[0].y
 const percentage = data => ((diff(data)/data[0].y)*100).toFixed(2)
 
 const Card = ({currency, fiat, data}) => {
+	const ref = useRef(null)
+	const {width, height} = useComponentSize(ref)
 	const normalizedData = data.map((v, i) => ({x: i, y: mean(v)}))
 	const absoluteChange = diff(normalizedData).toFixed(2)+fiat
 	const relativeChange = percentage(normalizedData)+'%'
 	const isMelting = diff(normalizedData) < 0
 	return (
-		<Wrapper>
-			<Graph data={normalizedData}/>
+		<Wrapper ref={ref}>
+			<Graph height={height} width={width} data={normalizedData}/>
 			<Main>
 				<div>
 					<TitleBar>
 						<CryptoIcon icon={currency} style={{marginRight: '0.75rem'}}/>
 						<Title>{currency}</Title>
 					</TitleBar>
-					<Amount>
-						{last(normalizedData).y.toFixed(2)} {fiat}
-					</Amount>
+					<Amount>{last(normalizedData).y.toFixed(2)} {fiat}</Amount>
 				</div>
 				<Change>
 					<Absolute isMelting={isMelting}>{absoluteChange}</Absolute>
