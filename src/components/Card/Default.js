@@ -58,8 +58,8 @@ const last = arr => arr[arr.length -1]
 const diff = data => last(data).y - data[0].y
 const percentage = data => ((diff(data)/data[0].y)*100).toFixed(2)
 
-const Default = ({currency, fiat, data, error, loading}) => {
-	const normalizedData = data.Data.map((v, i) => ({x: i, y: mean(v)}))
+const Default = ({currency, fiat, data}) => {
+	const normalizedData = data.map((v, i) => ({x: i, y: mean(v)}))
 	const absoluteChange = `${diff(normalizedData).toFixed(2)} ${fiat}`
 	const relativeChange = percentage(normalizedData)+'%'
 	const isMelting = diff(normalizedData) < 0

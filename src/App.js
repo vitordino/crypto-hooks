@@ -1,24 +1,13 @@
 import React from 'react'
 import useInputValue from '@rehooks/input-value'
-import { useFetch } from 'react-hooks-fetch'
 import Container from './components/Container'
 import Card from './components/Card/'
 export const CRYPTO_KEY = process.env['CRYPTO_KEY']
 
 const App = () => {
-
 	const currency = useInputValue('btc')
 	const fiat = useInputValue('usd')
 	const limit = useInputValue(30)
-
-	const { error, loading, data } = useFetch([
-		`https://min-api.cryptocompare.com/data/`,
-		`histo${limit.value < 7 ? 'minute' : limit.value <= 30 ? 'hour' : 'day'}?`,
-		`fsym=${currency.value.toUpperCase()}&`,
-		`tsym=${fiat.value.toUpperCase()}`,
-		`&limit=${limit.value < 7 ? limit.value*60*24 : limit.value <= 30  ? limit.value*24 : limit.value}`,
-		`&api_key=${CRYPTO_KEY}`
-	].join(''))
 
 	return (
 		<Container style={{marginTop: '3rem', marginBottom: '3rem'}}>
@@ -46,9 +35,8 @@ const App = () => {
 			<Card
 				currency={currency.value.toUpperCase()}
 				fiat={fiat.value.toUpperCase()}
-				data={data}
-				error={error}
-				loading={loading}
+				limit={limit.value}
+				apiKey={CRYPTO_KEY}
 			/>
 		</Container>
 	)
