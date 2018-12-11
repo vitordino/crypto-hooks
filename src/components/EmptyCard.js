@@ -11,6 +11,7 @@ const Wrapper = styled.form`
 	flex-direction: column;
 	justify-content: center;
 	padding: 1rem 2rem;
+	margin: 0.625rem 0;
 `
 
 const EmptyCard = ({addItem, ...props}) => {

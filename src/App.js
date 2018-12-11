@@ -15,7 +15,7 @@ const App = ({initialCurrencies = ['btc', 'eth', 'mda']}) => {
 	return (
 		<Container style={{marginTop: '3rem', marginBottom: '3rem'}}>
 			<h1 style={{fontSize: '1.5rem', marginBottom: '2rem'}}>crypto hooks</h1>
-			<div style={{display: 'flex', justifyContent: 'space-between'}}>
+			<div style={{display: 'flex', justifyContent: 'space-between', margin: '1rem 0'}}>
 				<div>
 					<select {...limit}>
 						<option value={1}>last day</option>

@@ -5,6 +5,7 @@ import Main from './Main'
 
 const Outer = styled.div`
 	position: relative;
+	padding: 0.625rem 0;
 `
 
 const Close = styled.button`
@@ -15,7 +16,7 @@ const Close = styled.button`
 	color: currentColor;
 	position: absolute;
 	right: 0;
-	top: -0.875rem;
+	top: -0.25rem;
 	right: -0.875rem;
 	background: orangered;
 	border-radius: 50%;
@@ -46,7 +47,6 @@ export const Wrapper = styled.div`
 	background: #323538;
 	border-radius: 0.25rem;
 	box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.22);
-	margin: 1.25rem 0;
 `
 
 const Card = ({remove, ...props}) => (
