@@ -1,9 +1,41 @@
 import React from 'react'
-import { useFetch } from 'react-hooks-fetch'
-import Err from './Error'
-import Loading from './Loading'
-import Default from './Default'
 import styled from '@emotion/styled/macro'
+import Main from './Main'
+
+
+const Outer = styled.div`
+	position: relative;
+`
+
+const Close = styled.button`
+	appearance: none;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	color: currentColor;
+	position: absolute;
+	right: 0;
+	top: -0.875rem;
+	right: -0.875rem;
+	background: orangered;
+	border-radius: 50%;
+	opacity: 0;
+	transition: 0.2s all;
+	display: block;
+	text-align: center;
+	font-size: 1.125rem;
+	line-height: 1.5rem;
+	height: 1.5rem;
+	width: 1.5rem;
+	text-indent: -1px;
+	font-weight: 600;
+	cursor: pointer;
+	${Outer}:hover &{
+		opacity: 1;
+	}
+`
+
+Close.defaultProps = {children: '×'}
 
 export const Wrapper = styled.div`
 	display: flex;
@@ -14,34 +46,14 @@ export const Wrapper = styled.div`
 	background: #323538;
 	border-radius: 0.25rem;
 	box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.22);
-	margin: 1rem 0;
+	margin: 1.25rem 0;
 `
 
-const Card = ({currency, fiat, limit, apiKey, ...props}) => {
-	const { error, loading, data } = useFetch([
-		`https://min-api.cryptocompare.com/data/`,
-		`histo${limit < 7 ? 'minute' : limit <= 30 ? 'hour' : 'day'}?`,
-		`fsym=${currency}&`,
-		`tsym=${fiat}`,
-		`&limit=${limit < 7 ? limit*60*24 : limit <= 30  ? limit*24 : limit}`,
-		`&api_key=${apiKey}`
-	].join(''))
-
-	if (error) return <Err alert error={error}/>
-	if (loading) return <Loading/>
-	if (data.Type !== 100) return (
-		<Err error={{message: 'sorry, no matches for this search 😔'}}/>
-	)
-
-	return (
-		<Default
-			currency={currency}
-			fiat={fiat}
-			limit={limit}
-			data={data.Data}
-			{...props}
-		/>
-	)
-}
+const Card = ({remove, ...props}) => (
+	<Outer style={{position: 'relative'}}>
+		<Main {...props}/>
+		<Close onClick={remove}/>
+	</Outer>
+)
 
 export default Card

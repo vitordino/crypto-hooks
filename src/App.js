@@ -38,6 +38,7 @@ const App = ({initialCurrencies = ['btc', 'eth', 'mda']}) => {
 					fiat={fiat.value.toUpperCase()}
 					limit={limit.value}
 					apiKey={CRYPTO_KEY}
+					remove={() => removeItem(index)}
 				/>
 			))}
 		</Container>
