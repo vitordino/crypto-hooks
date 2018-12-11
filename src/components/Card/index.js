@@ -1,9 +1,9 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import { useFetch } from 'react-hooks-fetch'
 import Err from './Error'
 import Loading from './Loading'
 import Default from './Default'
+import styled from '@emotion/styled/macro'
 
 export const Wrapper = styled.div`
 	display: flex;
