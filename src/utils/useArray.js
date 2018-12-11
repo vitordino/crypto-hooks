@@ -4,9 +4,9 @@ const useArray = (initialValue = []) => {
 	const [value, setValue] = useState(initialValue)
 
 	return {
-		items: value,
-		addItem: text => {if (!!text) {setValue(value.concat(text))}},
-		removeItem: idx => {setValue(value.filter((item, index) => idx !== index))},
+		items: [...new Set(value)],
+		addItem: text => !!text && setValue(value.concat(text)),
+		removeItem: i => setValue(value.filter((item, index) => i !== index)),
 	}
 }
 
