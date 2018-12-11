@@ -3,7 +3,9 @@ import useInputValue from '@rehooks/input-value'
 import useArray from './utils/useArray'
 import Container from './components/Container'
 import Card from './components/Card/'
-export const CRYPTO_KEY = process.env['CRYPTO_KEY']
+import EmptyCard from './components/EmptyCard'
+
+const CRYPTO_KEY = process.env['CRYPTO_KEY']
 
 const App = ({initialCurrencies = ['btc', 'eth', 'mda']}) => {
 	const {items, addItem, removeItem} = useArray(initialCurrencies)
@@ -33,7 +35,7 @@ const App = ({initialCurrencies = ['btc', 'eth', 'mda']}) => {
 			</div>
 			{items.map((currency, index) => (
 				<Card
-					key={currency+limit.value+fiat.value}
+					key={currency+limit.value+fiat.value+index}
 					currency={currency.toUpperCase()}
 					fiat={fiat.value.toUpperCase()}
 					limit={limit.value}
@@ -41,6 +43,7 @@ const App = ({initialCurrencies = ['btc', 'eth', 'mda']}) => {
 					remove={() => removeItem(index)}
 				/>
 			))}
+			<EmptyCard addItem={addItem}/>
 		</Container>
 	)
 }
