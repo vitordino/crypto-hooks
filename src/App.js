@@ -33,14 +33,14 @@ const App = ({initialCurrencies = ['btc', 'eth', 'mda']}) => {
 					<input size={6} {...fiat}/>
 				</div>
 			</div>
-			{items.map((currency, index) => (
+			{items.map(currency => (
 				<Card
-					key={currency+limit.value+fiat.value+index}
+					key={currency+limit.value+fiat.value}
 					currency={currency.toUpperCase()}
 					fiat={fiat.value.toUpperCase()}
 					limit={limit.value}
 					apiKey={CRYPTO_KEY}
-					remove={() => removeItem(index)}
+					remove={() => removeItem(currency)}
 				/>
 			))}
 			<EmptyCard addItem={addItem}/>

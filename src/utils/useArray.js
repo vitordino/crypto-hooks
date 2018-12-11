@@ -1,12 +1,12 @@
 import {useState} from 'react'
 
 const useArray = (initialValue = []) => {
-	const [value, setValue] = useState(initialValue)
+	const [value, setValue] = useState(new Set(initialValue))
 
 	return {
-		items: [...new Set(value)],
-		addItem: text => !!text && setValue(value.concat(text)),
-		removeItem: i => setValue(value.filter((item, index) => i !== index)),
+		items: [...value],
+		addItem: text => !!text && setValue(value.add(text)),
+		removeItem: text => value.delete(text) && setValue(value),
 	}
 }
 
