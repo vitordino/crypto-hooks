@@ -1,15 +1,18 @@
 import React from 'react'
 import useInputValue from '@rehooks/input-value'
+import { useFetch } from 'react-hooks-fetch'
 import useArray from './utils/useArray'
 import Container from './components/Container'
 import Card from './components/Card/'
 import EmptyCard from './components/EmptyCard'
 
-const CRYPTO_KEY = process.env['CRYPTO_KEY']
+const apiKey = process.env['CRYPTO_KEY']
 
 const App = ({initialCurrencies = ['btc', 'eth', 'mda']}) => {
+	const { data: fiatList } = useFetch('https://openexchangerates.org/api/currencies.json')
+
 	const {items, addItem, removeItem} = useArray(initialCurrencies)
-	const fiat = useInputValue('usd')
+	const fiat = useInputValue('USD')
 	const limit = useInputValue(30)
 
 	return (
@@ -29,8 +32,13 @@ const App = ({initialCurrencies = ['btc', 'eth', 'mda']}) => {
 					</select>
 				</div>
 				<div>
-					<span>on </span>
-					<input size={6} {...fiat}/>
+					{fiatList && (
+						<select {...fiat}>
+							{Object.entries(fiatList || {}).map(([code, name]) => (
+								<option value={code}>{code}: {name}</option>
+							))}
+						</select>
+					)}
 				</div>
 			</div>
 			{items.map(currency => (
@@ -39,7 +47,7 @@ const App = ({initialCurrencies = ['btc', 'eth', 'mda']}) => {
 					currency={currency.toUpperCase()}
 					fiat={fiat.value.toUpperCase()}
 					limit={limit.value}
-					apiKey={CRYPTO_KEY}
+					apiKey={apiKey}
 					remove={() => removeItem(currency)}
 				/>
 			))}
